@@ -1,3 +1,23 @@
+@mixin mobile {
+    @media screen and (max-width: 480px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media screen and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media screen and (max-width: 1200px) {
+        @content;
+    }
+}
+
+$darkColor: #2f2d52;
+
 * {
     margin: 0;
     padding: 0;
@@ -102,11 +122,14 @@
         height: 80%;
         display: flex;
         overflow: hidden;
+        @include tablet {
+            width: 90%;
+        }
 
         .sidebar {
             flex: 1;
             background-color: #3e3c61;
-
+            position: relative;
             .navbar {
                 display: flex;
                 align-items: center;
@@ -141,6 +164,11 @@
                     border-radius: 3px;
                     padding: 5px 10px;
                     cursor: pointer ;
+                    @include tablet {
+                        position: absolute;
+                        bottom: 10px;
+                        left: 10px;
+                    }
                 }
             }
 
