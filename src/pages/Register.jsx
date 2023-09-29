@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Add from "../img/addAvatar.png";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, storage, db } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 
 const Register = () => {
   const [err, setErr] = useState(false);
@@ -14,12 +16,39 @@ const Register = () => {
     const file = e.target[3].files[0];
 
     try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      const res = await createUserWithEmailAndPassword(auth, email, password)
-    } catch(err) {
-      setErr(true)
+      const storageRef = ref(storage, displayName);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Register three observers:
+      uploadTask.on(
+        (error) => {
+          setErr(true);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            console.log("File available at", downloadURL);
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            });
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL
+            })
+            await setDoc(doc(db, "userChats", res.user.uid), {})
+          });
+        }
+      );
+
+ 
+    } catch (err) {
+      setErr(true);
     }
-
   };
 
   return (
@@ -37,7 +66,11 @@ const Register = () => {
             <span>Add avatar</span>
           </label>
           <button>Sing up</button>
-          {err && <span style={{textAlign: "center", color:"red"}}>Something went wrong</span>}
+          {err && (
+            <span style={{ textAlign: "center", color: "red" }}>
+              Something went wrong
+            </span>
+          )}
         </form>
         <p>You do have account ? Login</p>
       </div>
