@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.scss";
-import Home from "./pages/Home";
+// import Home from "./pages/Home";
 import Register from "./pages/Register";
 
 const App = () => {
