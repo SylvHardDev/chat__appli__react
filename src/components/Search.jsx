@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 // import homme from "../img/avatar/homme.png";
 import { db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+  getDoc,
+} from "firebase/firestore";
+import { AuthContext } from "../context/AuthContext";
 
 const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
+
+  const { currentUser } = useContext(AuthContext);
 
   const handleSearch = async () => {
     const q = query(
@@ -27,6 +40,39 @@ const Search = () => {
   const handleKey = (e) => {
     e.code === "Enter" && handleSearch();
   };
+
+  const handleSelect = async () => {
+    const combinedId = currentUser.uid
+      ? currentUser.uid + user.uid
+      : user.uid + currentUser.uid;
+
+    try {
+      const res = await getDoc(doc(db, "chats", combinedId));
+
+      if (!res.exists()) {
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+
+        await updateDoc(doc(db, "useChats", currentUser.uid), {
+          [combinedId+".userInfo"]: {
+              uid: user.uid, 
+              displayName: user.displayName,
+              photoURL: user.photoURL
+          },
+          [combinedId+".date"]: serverTimestamp()
+        });
+
+        await updateDoc(doc(db, "useChats", user.uid), {
+          [combinedId+".userInfo"]: {
+              uid: currentUser.uid, 
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL
+          },
+          [combinedId+".date"]: serverTimestamp()
+        });
+      }
+    } catch (err) {}
+  };
+
   return (
     <div className="search">
       <div className="searchForm">
@@ -39,7 +85,7 @@ const Search = () => {
       </div>
       {err && <span>User Not Found !!</span>}
       {user && (
-        <div className="userChat">
+        <div className="userChat" onClick={handleSelect}>
           <img src={user.photoURL} alt="" />
           <div className="userChatInfo">
             <span>{user.displayName}</span>
