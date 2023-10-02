@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -14,7 +14,7 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       setErr(true);
     }
@@ -25,15 +25,19 @@ const Login = () => {
       <div className="formWrapper">
         <span className="logo">Chan Chat</span>
         <span className="title">Login</span>
-        <form onClick={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
           <button>Sing in</button>
+          {err && (
+            <span style={{ textAlign: "center", color: "red" }}>
+              Something went wrong
+            </span>
+          )}
         </form>
-        <span style={{ textAlign: "center", color: "red" }}>
-          Something went wrong
-        </span>
-        <p>Don't have account ? <Link to="/register">Register</Link> </p>
+        <p>
+          Don't have account ? <Link to="/register">Register</Link>{" "}
+        </p>
       </div>
     </div>
   );
