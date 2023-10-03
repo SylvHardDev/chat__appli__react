@@ -1,9 +1,10 @@
-import React from 'react'
-import photos from '../img/avatar/femme.png'
+import React from "react";
+import photos from "../img/avatar/femme.png";
 
-const Message = () => {
+const Message = ({ message }) => {
+  console.log(message);
   return (
-    <div className='message owner'>
+    <div className="message owner">
       <div className="messageInfo">
         <img src={photos} alt="sary" />
         <span>vo zao</span>
@@ -13,7 +14,7 @@ const Message = () => {
         <img src={photos} alt="sary" />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Message
+export default Message;
