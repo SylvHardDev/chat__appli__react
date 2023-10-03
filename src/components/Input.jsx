@@ -4,7 +4,7 @@ import Attach from "../img/attach.png";
 import Send from "../img/envoyer-le-message.png";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { Timestamp, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -54,7 +54,15 @@ const Input = () => {
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
         text
-      }
+      },
+      [data.chatId + ".date"]: serverTimestamp()
+    })
+
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text
+      },
+      [data.chatId + ".date"]: serverTimestamp()
     })
 
     setText("");
