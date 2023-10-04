@@ -3,7 +3,13 @@ import Img from "../img/img.png";
 import Send from "../img/envoyer-le-message.png";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -14,6 +20,8 @@ const Input = () => {
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+
+
 
   const handleSend = async () => {
     if (img) {
@@ -52,21 +60,26 @@ const Input = () => {
 
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
-        text
+        text,
       },
-      [data.chatId + ".date"]: serverTimestamp()
-    })
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
 
     await updateDoc(doc(db, "userChats", data.user.uid), {
       [data.chatId + ".lastMessage"]: {
-        text
+        text,
       },
-      [data.chatId + ".date"]: serverTimestamp()
-    })
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
 
     setText("");
     setImg(null);
   };
+
+  const handleKey = (e) => {
+    e.code === "Enter" && handleSend();
+  };
+
   return (
     <div className="input">
       <input
@@ -74,6 +87,7 @@ const Input = () => {
         placeholder="Envoyer un message ..."
         onChange={(e) => setText(e.target.value)}
         value={text}
+        onKeyDown={handleKey}
       />
       <div className="send">
         <input
