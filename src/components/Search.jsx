@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import SearchIcon from "../img/search.png"
+import SearchIcon from "../img/loupe-arrondie.png";
 // import homme from "../img/avatar/homme.png";
 import { db } from "../firebase";
 import {
@@ -89,7 +89,9 @@ const Search = () => {
             onChange={(e) => setUsername(e.target.value)}
             value={username}
           />
-          <img src={SearchIcon} alt="" onClick={handleSearch}/>
+          <div className="iconRecherche">
+            <img src={SearchIcon} alt="" onClick={handleSearch} />
+          </div>
         </div>
       </div>
       {err && <span>User Not Found !!</span>}
