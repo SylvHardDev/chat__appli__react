@@ -2,18 +2,24 @@ import React, { useContext } from "react";
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../context/ChatContext";
-import menuIcon from "../img/menu.png"
+import menuIcon from "../img/bar.png";
 
 const Chat = () => {
   const { data } = useContext(ChatContext);
+  
+  
+  const handleOpenMenu = () => {
+    const sidebar = document.querySelector(".sidebar")
+    sidebar.classList.toggle("visible")
+  };
 
   return (
     <div className="chat">
       <div className="chatInfo">
         <img src={data.user.photoURL} alt="" />
         <span>{data.user?.displayName}</span>
-        
-        <button className="menuIcon">
+
+        <button className="menuIcon" onClick={handleOpenMenu}>
           <img src={menuIcon} alt="" />
         </button>
       </div>
@@ -22,5 +28,4 @@ const Chat = () => {
     </div>
   );
 };
-
 export default Chat;
