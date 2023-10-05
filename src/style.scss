@@ -201,6 +201,28 @@ $darkColor: #2f2d52;
             // .logo {
             //     font-weight: bold;
             // }
+            .x {
+                // background-color: #ddddf7;
+                background: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: rgba(0, 0, 0, .5) 0px 1px 5px;
+                display: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                right: 20px;
+                position: absolute;
+                @include resp870 {
+                    display: block;
+                }
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                }               
+            }
 
             .user {
                 display: flex;
@@ -216,31 +238,13 @@ $darkColor: #2f2d52;
 
             }
         }
-        button.x {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: red;
-            // background-color: #e5e8f2;
-            // box-shadow: none;
-            font-size: 20px;
-            color: #fff;
-            // color: #000;
-            font-weight: normal;
-            position: absolute;
-            right: 20px;
-            display: none;
-            @include resp870 {
-                display: block;
-            }
-        }
 
         button.deconnexion {
             
             @include resp870 {
                 position: absolute;
-                bottom: 10px;
-                left: 10px;
+                bottom: 20px;
+                left: 20px;
             }
             
         }
@@ -255,8 +259,7 @@ $darkColor: #2f2d52;
             font-weight: 900;
             transition: .3s ease;
             cursor: pointer ;
-            box-shadow:  2px 2px 15px #cfd1d9,
-             -2px -2px 15px #ffffff;
+            box-shadow: rgba(0, 0, 0, 0.30) 0px 3px 8px;
             &:hover {
                 transform: scale(1.05);
             }
@@ -286,13 +289,29 @@ $darkColor: #2f2d52;
                         width: 90%;
                         padding: 0 0 0 10px;
                         font-weight: 500;
+                        font-size: 17px;
                         margin-right: 10px;
                     }
-                    img {
-                        width: 25px;
-                        height: 25px;
+                    .iconRecherche {
+                        padding: 8px;
                         border-radius: 50%;
+                        transition: .3s ease;
+                        background-color: #e5e8f2;
                         cursor: pointer;
+                        &:hover {
+                            transform: scale(1.05);
+                        }
+                        &:active {
+                            transform: scale(.9);
+                        }
+                        img {
+                            width: 20px;
+                            height: 20px;
+                            // padding: 5px;
+                            // border-radius: 50%;
+                            cursor: pointer;
+                            
+                        }
                     }
                 }
             }
@@ -326,7 +345,7 @@ $darkColor: #2f2d52;
                     font-weight: 500;
                     text-align: start;
                     display: flex;
-                    justify-content: start;
+                    justify-content: flex-start;
                 }
 
                 p {
@@ -364,8 +383,10 @@ $darkColor: #2f2d52;
                 .menuIcon {
                     position: absolute;
                     right: 30px;
+                    top: 25px;
+                    padding: 0px 4px 0px 4px;
                     background: none !important;
-                    box-shadow: none;
+                    // box-shadow: none;
                     display: none;
                     z-index: 1;
                     @include resp870 {
@@ -374,8 +395,9 @@ $darkColor: #2f2d52;
                     
                     img {
                         border-radius: 0px !important;
-                        width: 35px;
-                        height: 35px;
+                        width: 40px;
+                        padding-top: 2px;
+                        height: 40px;
                     }
 
                 }
