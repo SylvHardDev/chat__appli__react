@@ -18,7 +18,7 @@ import { AuthContext } from "../context/AuthContext";
 const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
-  const [err, setErr] = useState(true);
+  const [err, setErr] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -30,13 +30,22 @@ const Search = () => {
 
     try {
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-      });
+      if (querySnapshot.empty) {
+        setErr(true);
+      } else {
+        querySnapshot.forEach((doc) => {
+          setUser(doc.data());
+        });
+        setErr(false); 
+      }
+
     } catch (err) {
-      setErr(true);
+      setErr(true)
+      console.log("utilisateur introuvable");
     }
+
   };
+
 
   const handleKey = (e) => {
     e.code === "Enter" && handleSearch();
