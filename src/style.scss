@@ -1,3 +1,18 @@
+@keyframes shake {
+    0% {
+      margin-left: 0rem;
+    }
+    25% {
+      margin-left: 0.5rem;
+    }
+    75% {
+      margin-left: -0.5rem;
+    }
+    100% {
+      margin-left: 0rem;
+    }
+}
+
 @mixin mobile {
     @media screen and (max-width: 480px) {
         @content;
@@ -269,6 +284,11 @@ $darkColor: #2f2d52;
 
         }
         .search {
+            span.errorMessage {
+                margin-top: 10px;
+                color: red;
+                animation: shake 0.2s ease-in-out 0s 2;
+            }
             
             .searchForm {
                 width: 100%;

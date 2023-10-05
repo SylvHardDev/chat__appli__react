@@ -18,7 +18,7 @@ import { AuthContext } from "../context/AuthContext";
 const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
-  const [err, setErr] = useState(false);
+  const [err, setErr] = useState(true);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -93,8 +93,8 @@ const Search = () => {
             <img src={SearchIcon} alt="" onClick={handleSearch} />
           </div>
         </div>
+      {err && <span className="errorMessage">Client introuvable !!</span>}
       </div>
-      {err && <span>User Not Found !!</span>}
       {user && (
         <div className="userChat" onClick={handleSelect}>
           <img src={user.photoURL} alt="" />
