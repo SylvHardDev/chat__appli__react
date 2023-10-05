@@ -24,7 +24,7 @@ const Navbar = () => {
         <img src={Xmark} alt="" />
         {/* X */}
       </button>
-      <button className='deconnexion' onClick={() => signOut(auth)}>Desconect</button>
+      <button className='deconnexion' onClick={() => signOut(auth)}>Déconnexion</button>
     </div>
   )
 }
